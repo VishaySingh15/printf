@@ -2,6 +2,7 @@
 #define _MAIN_
 
 #include <stdarg.h>
+#include <stdlib.h>
 
 int _printf(const char *format, ...);
 int get_count(const char *format);
