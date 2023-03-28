@@ -1,15 +1,20 @@
-#include <stdarg.h>
-#include <unistd.h>
 #include "main.h"
 
+/**
+ * _printf - formatted output conversion and print data.
+ * @format: input string.
+ *
+ * Return: number of chars printed.
+ */
 int _printf(const char *format, ...)
 {
-	int count = 0, i = 0, valid;
+	unsigned int i = 0, len = 0, nbytes = 0;
 	va_list args;
-	char *c = malloc(sizeof(char) * 2);
+	int (*print_function)(va_list, char *, unsigned int);
+	char *buffer;
 
-	va_start(args, format);
-	if (!format || (format[i] == '%' && !format[i + 1]))
+	va_start(args, format), buffer = malloc(sizeof(char) * 1024);
+	if (!format || !buffer || (format[i] == '%' && !format[i + 1]))
 	{
 		return (-1);
 	}
@@ -21,24 +26,37 @@ int _printf(const char *format, ...)
 	{
 		if (format[i] == '%')
 		{
-			valid = print_format(args, format, i);
-			if (!valid)
+			if (format[i + 1])
 			{
-				return(-1);
+				print_function = get_print_function(format, i + 1);
+				if (print_function == NULL)
+				{
+					if (format[i + 1] == ' ' && !format[i + 2])
+					{
+						return (-1);
+					}
+					handle_buffer(buffer, format[i], nbytes), len++, i--;
+				}
+				else
+				{
+					len += print_function(args, buffer, nbytes);
+					i++;
+				}
+				
 			}
 			else
 			{
-				count += valid;
-				i++;
-			}
+				print_buffer(buffer, nbytes), free(buffer), va_end(args);
+				return (-1);
+			} i++;
 		}
 		else
 		{
-			c[0] = format[i];
-			count += write(1, c, 1);
+			handle_buffer(buffer, format[i], nbytes), len++;
 		}
-		
+		for (nbytes = len; nbytes > 1024; nbytes -= 1024)
+		{}
 	}
-	free(c), va_end(args);
-	return (count - 1);
+	print_buffer(buffer, nbytes), free(buffer), va_end(args);
+	return (len);
 }
