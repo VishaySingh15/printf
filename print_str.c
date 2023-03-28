@@ -7,20 +7,20 @@
  * @ibuf: index for buffer pointer
  * Return: On success 1.
  */
-int print_str(va_list args, char *buffer, unsigned int nbytes)
+int print_str(va_list arguments, char *buf, unsigned int ibuf)
 {
 	char *str;
 	unsigned int i;
-	char nil[] = "(null)";
+	char nill[] = "(null)";
 
 	str = va_arg(arguments, char *);
 	if (str == NULL)
 	{
-		for (i = 0; nil[i]; i++)
-			nbytes = handle_buffer(buffer, nil[i], nbytes);
+		for (i = 0; nill[i]; i++)
+			ibuf = handl_buf(buf, nill[i], ibuf);
 		return (6);
 	}
 	for (i = 0; str[i]; i++)
-		nbytes = handle_buffer(buffer, str[i], nbytes);
+		ibuf = handl_buf(buf, str[i], ibuf);
 	return (i);
 }
