@@ -8,9 +8,7 @@
  */
 int main(void)
 {
-	int len;
-	len = _printf("Funprint\n");
-	printf("%d\n", len);
+	_printf("Funprint\n");
 	_printf("This is my name%s and my initial %c\n", "Vishay", 'V');
 	return (0);
 }
