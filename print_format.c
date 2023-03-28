@@ -10,7 +10,7 @@
  */
 int print_format(va_list args, const char *format, int i)
 {
-	int count_str;
+	int count_str, ret;
 	char *str;
 	char *ch = malloc(sizeof(char) * 2);
 
@@ -18,18 +18,21 @@ int print_format(va_list args, const char *format, int i)
 	{
 		str = va_arg(args, char *);
 		count_str = get_count(str);
-		free(ch);
 		return(write(1, str, count_str));
 	}
 	else if (format[i + 1] == 'c')
 	{
 		ch[0] = va_arg(args, int);
-		return(write(1, ch, 1));
+		ret = write(1, ch, 1);
+		free(ch);
+		return(ret);
 	}
 	else if (format[i + 1] == '%')
 	{
 		ch[0] = '%';
-		return(write(1, ch, 1));
+		ret = write(1, ch, 1);
+		free(ch);
+		return(ret);
 	}
 	else
 	{
