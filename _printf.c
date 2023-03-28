@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include <stdarg.h>
 #include <unistd.h>
 #include "main.h"
@@ -40,6 +39,6 @@ int _printf(const char *format, ...)
 		}
 		
 	}
-	 free(c), va_end(args);
+	free(c), va_end(args);
 	return (count - 1);
 }
