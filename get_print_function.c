@@ -1,6 +1,6 @@
 #include "main.h"
 
-int (*get_print_function(const char *format, int index))(va_list, char *, unsigned int)
+int (*get_print_func(const char *format, int index))(va_list, char *, unsigned int)
 {
 	print_t specifiers[] = {
 		{"c", print_chr}, {"s", print_str},
